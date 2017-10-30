@@ -1,0 +1,59 @@
+body {
+	font-family: 'Lato', san-serif;
+	color: #eee;
+}
+
+h1 {
+}
+
+.text_super {
+	text-shadow: 3px 5px 5px #445544;
+}
+
+a:hover {
+	color: #ffccb3;
+	text-decoration: none;
+}
+
+button {
+	padding: 10px;
+	border-radius: 10px;
+	border: 1px solid #eee;
+	background: #888;
+}
+
+button:hover {
+	background: #aaa;
+}
+
+.goal_button{
+	font-size: x-large;	
+}
+
+.nav-button {
+	background-color: #ffeedd;
+}
+
+.kitten-button {
+	background-color: #CCC5FA;
+}
+
+.section {
+}
+
+#test {
+}
+
+ul {
+	list-style-type: none;
+}
+
+li {
+	padding: 5px;
+}
+
+.aside {
+	border: 2px solid #eee;
+	border-radius: 10px;
+	padding: 10px;	
+}

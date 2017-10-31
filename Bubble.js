@@ -3,10 +3,27 @@ function Bubble(posX, posY) {
 	this.x = posX;
 	this.y = posY;
 	this.r = 20;
+	this.color = 0; 	// 1=blue 2=green 3=brown else=grey
 
 	this.display = function() {
-		stroke(180, 180, 180);
-		fill(150, 150, 150, 80);
+		if (this.color == 1) {
+			// blue
+			//stroke(120, 200, 255);
+			stroke(140, 200, 255);
+			fill(100, 180, 240, 80);
+		} else if (this.color == 2) {
+			// green
+			stroke(170, 255, 190);
+			fill(140, 240, 120, 80);
+		} else if (this.color == 3) {
+			// brown
+			stroke(190, 150, 80);
+			fill(150, 100, 50, 80);
+		} else {
+			// grey
+			stroke(180, 180, 180);
+			fill(150, 150, 150, 80);
+		}
 		ellipse(this.x, this.y, this.r * 2, this.r * 2);
 	}
 
@@ -14,38 +31,5 @@ function Bubble(posX, posY) {
 		// wiggle randomly
 		this.x = this.x + random(-1,1);
 		this.y = this.y + random(-1,1);
-	}
-
-	this.intersects = function(other) {
-		var d = dist(this.x, this.y, other.x, other.y);
-
-		if (d < this.r + other.r) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	this.touching = function(other) {
-		this.blue = true;
-	}
-
-	this.notTouching = function() {
-		this.blue = false;
-	}
-
-	this.clicked = function() {
-		var d = dist(mouseX, mouseY, this.x, this.y);
-		if (d < this.r) {
-			this.blue = true;	
-		}
-	}
-
-	this.isFinished = function() {
-		if (this.r <= 0) {
-			return true;
-		} else {
-			return false;
-		}
 	}
 }

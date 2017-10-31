@@ -31,6 +31,7 @@ function setup() {
 		new_button.parent(new_goal);
 		new_button.class('goal_button');
 		goals.push(new_goal);
+		new_button.mousePressed(more_blues);
 	}
 	for (var i = 0; i < today.todos.length; i++) {
 		var new_todo = createElement('li');
@@ -39,6 +40,7 @@ function setup() {
 		new_button.parent(new_todo);
 		new_button.class('todo_button');
 		todos.push(new_todo);
+		new_button.mousePressed(complete_todo);
 	}
 	for (var i = 0; i < today.sabotage.length; i++) {
 		var new_sabotage = createElement('li');
@@ -47,11 +49,37 @@ function setup() {
 		new_button.parent(new_sabotage);
 		new_button.class('sabotage_button');
 		sabotages.push(new_sabotage);
+		new_button.mousePressed(more_browns);
 	}
 
 	for (var i = 0; i < num_bubbles; i++) {
 		bubbles.push(new Bubble(random(width), random(height)));
 	}	
+}
+
+function more_blues() {
+	for (var i = 0; i < bubbles.length; i++) {
+		if (parseInt(random(10)) == 0) {
+			bubbles[i].color = 1;
+		}
+	}	
+}
+
+function more_browns() {
+	for (var i = 0; i < bubbles.length; i++) {
+		if (parseInt(random(10)) == 0) {
+			bubbles[i].color = 3;
+		}
+	}	
+}
+
+function complete_todo() {
+	for (var i = 0; i < bubbles.length; i++) {
+		if (parseInt(random(10)) == 0) {
+			bubbles[i].color = 2;
+		}
+	}	
+	this.remove();
 }
 
 function highlight() {

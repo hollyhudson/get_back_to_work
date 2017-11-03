@@ -12,6 +12,11 @@ var sabotages = [];
 var num_bubbles = 80;
 var bubbles = [];
 
+var new_item_input;
+var new_goal_btn;
+var new_todo_btn;
+var new_sabotage_btn;
+
 var today = new Motivation();
 //var section_header_test;
 //var section_headers;
@@ -37,6 +42,40 @@ function setup() {
 	for (var i = 0; i < num_bubbles; i++) {
 		bubbles.push(new Bubble(random(width), random(height)));
 	}	
+
+	new_item_input = createInput('add new');
+	new_item_input.parent('#control-widgets');
+	new_item_input.id('#new_item');
+
+	new_goal_btn = createButton('Goal');	
+	new_goal_btn.parent('#control-widgets');
+	new_goal_btn.id('#new_goal_btn');	
+	new_goal_btn.mousePressed(create_new_goal_wrapper);
+
+	new_todo_btn = createButton('To Do');	
+	new_todo_btn.parent('#control-widgets');
+	new_todo_btn.id('#new_todo_btn');	
+
+	new_sabotage_btn = createButton('Sabotage');	
+	new_sabotage_btn.parent('#control-widgets');
+	new_sabotage_btn.id('#new_sabotage_btn');	
+
+	new_goal_btn.mousePressed(create_new_goal_wrapper);
+	new_todo_btn.mousePressed(create_new_todo_wrapper);
+	new_sabotage_btn.mousePressed(create_new_sabotage_wrapper);
+
+}
+
+function create_new_goal_wrapper() {
+	create_new_goal(new_item_input.value());
+}
+
+function create_new_todo_wrapper() {
+	create_new_todo(new_item_input.value());
+}
+
+function create_new_sabotage_wrapper() {
+	create_new_sabotage(new_item_input.value());
 }
 
 function create_new_goal(goal) {

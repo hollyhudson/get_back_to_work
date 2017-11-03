@@ -25,36 +25,48 @@ function setup() {
 
 	// Add the motivation lists to arrays
 	for (var i = 0; i < today.goals.length; i++) {
-		var new_goal = createElement('li');
-		new_goal.parent("#goals");
-		var new_button = createElement('button', today.goals[i]);
-		new_button.parent(new_goal);
-		new_button.class('goal_button');
-		goals.push(new_goal);
-		new_button.mousePressed(more_blues);
+		create_new_goal(today.goals[i]);
 	}
 	for (var i = 0; i < today.todos.length; i++) {
-		var new_todo = createElement('li');
-		new_todo.parent("#todos");
-		var new_button = createElement('button', today.todos[i]);
-		new_button.parent(new_todo);
-		new_button.class('todo_button');
-		todos.push(new_todo);
-		new_button.mousePressed(complete_todo);
+		create_new_todo(today.todos[i]);
 	}
 	for (var i = 0; i < today.sabotage.length; i++) {
-		var new_sabotage = createElement('li');
-		new_sabotage.parent("#sabotage");
-		var new_button = createElement('button', today.sabotage[i]);
-		new_button.parent(new_sabotage);
-		new_button.class('sabotage_button');
-		sabotages.push(new_sabotage);
-		new_button.mousePressed(more_browns);
+		create_new_sabotage(today.sabotage[i]);
 	}
 
 	for (var i = 0; i < num_bubbles; i++) {
 		bubbles.push(new Bubble(random(width), random(height)));
 	}	
+}
+
+function create_new_goal(goal) {
+	var new_goal = createElement('li');
+	new_goal.parent("#goals");
+	var new_button = createElement('button', goal);
+	new_button.parent(new_goal);
+	new_button.class('goal_button');
+	goals.push(new_goal);
+	new_button.mousePressed(more_blues);
+}
+
+function create_new_todo(todo) {
+	var new_todo = createElement('li');
+	new_todo.parent("#todos");
+	var new_button = createElement('button', todo);
+	new_button.parent(new_todo);
+	new_button.class('todo_button');
+	todos.push(new_todo);
+	new_button.mousePressed(complete_todo);
+}
+
+function create_new_sabotage(sabotage) {
+	var new_sabotage = createElement('li');
+	new_sabotage.parent("#sabotage");
+	var new_button = createElement('button', sabotage);
+	new_button.parent(new_sabotage);
+	new_button.class('sabotage_button');
+	sabotages.push(new_sabotage);
+	new_button.mousePressed(more_browns);
 }
 
 function more_blues() {

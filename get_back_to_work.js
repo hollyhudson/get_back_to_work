@@ -29,6 +29,7 @@ function setup() {
 	get_back_to_work = select('.text-super');
 
 	// Add the motivation lists to arrays
+	/*
 	for (var i = 0; i < today.goals.length; i++) {
 		create_new_goal(today.goals[i]);
 	}
@@ -38,15 +39,19 @@ function setup() {
 	for (var i = 0; i < today.sabotage.length; i++) {
 		create_new_sabotage(today.sabotage[i]);
 	}
+	*/
 
+	// make the bubbles
 	for (var i = 0; i < num_bubbles; i++) {
 		bubbles.push(new Bubble(random(width), random(height)));
 	}	
 
+	// create the textbox
 	new_item_input = createInput('add new');
 	new_item_input.parent('#control-widgets');
 	new_item_input.id('#new_item');
 
+	// make some buttons for the textbox
 	new_goal_btn = createButton('Goal');	
 	new_goal_btn.parent('#control-widgets');
 	new_goal_btn.id('#new_goal_btn');	
@@ -68,14 +73,17 @@ function setup() {
 
 function create_new_goal_wrapper() {
 	create_new_goal(new_item_input.value());
+	new_item_input.value(""); // clear the textbox
 }
 
 function create_new_todo_wrapper() {
 	create_new_todo(new_item_input.value());
+	new_item_input.value(""); // clear the textbox
 }
 
 function create_new_sabotage_wrapper() {
 	create_new_sabotage(new_item_input.value());
+	new_item_input.value(""); // clear the textbox
 }
 
 function create_new_goal(goal) {

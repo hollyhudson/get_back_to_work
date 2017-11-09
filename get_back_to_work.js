@@ -21,7 +21,9 @@ var today = new Motivation();
 //var section_header_test;
 //var section_headers;
 
-function setup() {
+var prologue = true;
+
+function ssetup() {
 	canvas = createCanvas(windowWidth, windowHeight);
 	canvas.position(0,0); 			// put the canvas at the top
 	canvas.style('z-index', '-1'); 	// put it behind the page content
@@ -46,6 +48,10 @@ function setup() {
 		bubbles.push(new Bubble(random(width), random(height)));
 	}	
 
+/*
+****** Create the control widgets at the top *********
+*/
+
 	// create the textbox
 	new_item_input = createInput('add new');
 	new_item_input.parent('#control-widgets');
@@ -69,7 +75,24 @@ function setup() {
 	new_todo_btn.mousePressed(create_new_todo_wrapper);
 	new_sabotage_btn.mousePressed(create_new_sabotage_wrapper);
 
+/*
+****** Prologue dropzones *********
+
+	goal_dropzone = createP("Drop your goals here");	
+	goal_dropzone.style('z-index', '2');
+	todo_dropzone = createP("Drop your to dos here");	
+	todo_dropzone.style('z-index', '2');
+	sabotage_dropzone = createP("Drop your sabotages here");	
+	sabotage_dropzone.style('z-index', '2');
+
+	finish_prologue_btn = createButton("Let's get started!");
+	finish_prologue_btn.style('z-index', '2');
+*/
 }
+
+/*
+****** Adding buttons for goals, todos and sabotages *********
+*/
 
 function create_new_goal_wrapper() {
 	create_new_goal(new_item_input.value());
@@ -116,6 +139,10 @@ function create_new_sabotage(sabotage) {
 	new_button.mousePressed(more_browns);
 }
 
+/*
+****** Coloring bubbles based on clicks *********
+*/
+
 function more_blues() {
 	for (var i = 0; i < bubbles.length; i++) {
 		if (parseInt(random(10)) == 0) {
@@ -143,30 +170,43 @@ function complete_todo() {
 
 function highlight() {
 	this.style('color', 'rgb(240,' + col_g + ',240)');
-	
 }
 
 function unhighlight() {
 	this.style('color', 'rgb(240, 240, 240)');
 }
 
+
 function draw() {
-	background(130);
+	if (prologue == true) {
+		canvas.style('z-index', '1'); 	// cover page content
+		noStroke();
+		fill(240, 200, 255);
+		if (windowWidth > windowHeight) {
+			ellipse(windowWidth/2, windowHeight/2, windowWidth+500);
+		} else {
+			ellipse(windowWidth/2, windowHeight/2, windowHeight+500);
+		}
 
-	// flash the Get Back to Work text
-	get_back_to_work.style('color', 'rgb(240,' + col_g + ',240)');
-
-	if (col_g >= 240) {
-		dir = -3;	
-	} else if (col_g <= 0){
-		// more magenta
-		dir = 3;
-	}	
-	col_g += dir;	
-
-	// Show the bubbles
-	for (var i = 0; i < bubbles.length; i++) {
-		bubbles[i].updatePos();
-		bubbles[i].display();
+	} else {
+		canvas.style('z-index', '-1'); 	// put it behind the page content
+		background(130);
+	
+		// flash the Get Back to Work text
+		get_back_to_work.style('color', 'rgb(240,' + col_g + ',240)');
+	
+		if (col_g >= 240) {
+			dir = -3;	
+		} else if (col_g <= 0){
+			// more magenta
+			dir = 3;
+		}	
+		col_g += dir;	
+	
+		// Show the bubbles
+		for (var i = 0; i < bubbles.length; i++) {
+			bubbles[i].updatePos();
+			bubbles[i].display();
+		}
 	}
 }

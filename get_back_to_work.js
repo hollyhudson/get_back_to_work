@@ -27,6 +27,7 @@ function setup() {
 	canvas = createCanvas(windowWidth, windowHeight);
 	canvas.position(0,0); 			// put the canvas at the top
 	canvas.style('z-index', '-1'); 	// put it behind the page content
+	canvas.id("canvas");
 
 	get_back_to_work = select('.text-super');
 
@@ -77,17 +78,22 @@ function setup() {
 
 /*
 ****** Prologue dropzones *********
+*/
 
 	goal_dropzone = createP("Drop your goals here");	
-	goal_dropzone.style('z-index', '2');
+	goal_dropzone.class('dropzone');	
+	goal_dropzone.position(10, 10);
 	todo_dropzone = createP("Drop your to dos here");	
-	todo_dropzone.style('z-index', '2');
+	todo_dropzone.class('dropzone');	
+	todo_dropzone.position(10, 140);
 	sabotage_dropzone = createP("Drop your sabotages here");	
-	sabotage_dropzone.style('z-index', '2');
+	sabotage_dropzone.class('dropzone');	
+	sabotage_dropzone.position(10, 270);
 
 	finish_prologue_btn = createButton("Let's get started!");
+	finish_prologue_btn.style('background-color', 'black');
 	finish_prologue_btn.style('z-index', '2');
-*/
+	finish_prologue_btn.position(10,400);
 }
 
 /*
@@ -181,7 +187,7 @@ function draw() {
 	if (prologue == true) {
 		canvas.style('z-index', '1'); 	// cover page content
 		noStroke();
-		fill(240, 200, 255);
+		fill(140, 100, 220);
 		if (windowWidth > windowHeight) {
 			ellipse(windowWidth/2, windowHeight/2, windowWidth+500);
 		} else {

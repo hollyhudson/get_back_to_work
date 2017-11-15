@@ -1,6 +1,8 @@
 // Here's a more complex example to play with css with p5.js
 
 var canvas;
+var radius; // of the ellipse that covers the page during the prologue
+var shrink_rate = 20; // num pixels to subtract from radius while shrinking
 var get_back_to_work;
 var dir = 3;
 var col_g = 0;
@@ -21,7 +23,7 @@ var today = new Motivation();
 //var section_header_test;
 //var section_headers;
 
-var prologue = true;
+var prologue = 1; // 1 is on, 0 is transition, -1 is off
 
 function setup() {
 	canvas = createCanvas(windowWidth, windowHeight);
@@ -83,17 +85,21 @@ function setup() {
 	goal_dropzone = createP("Drop your goals here");	
 	goal_dropzone.class('dropzone');	
 	goal_dropzone.position(10, 10);
+	goal_dropzone.drop(accept_goal_file, disappear_goal_dropzone);
 	todo_dropzone = createP("Drop your to dos here");	
 	todo_dropzone.class('dropzone');	
 	todo_dropzone.position(10, 140);
+	//todo_dropzone.drop(accept_todo_file, disappear_dropzone);
 	sabotage_dropzone = createP("Drop your sabotages here");	
 	sabotage_dropzone.class('dropzone');	
 	sabotage_dropzone.position(10, 270);
+	//sabotage_dropzone.drop(accept_sabotage_file, disappear_dropzone);
 
 	finish_prologue_btn = createButton("Let's get started!");
 	finish_prologue_btn.style('background-color', 'black');
 	finish_prologue_btn.style('z-index', '2');
 	finish_prologue_btn.position(10,400);
+	finish_prologue_btn.mousePressed(end_prologue);
 }
 
 /*
@@ -116,6 +122,7 @@ function create_new_sabotage_wrapper() {
 }
 
 function create_new_goal(goal) {
+	console.log("creating a new goal!");
 	var new_goal = createElement('li');
 	new_goal.parent("#goals");
 	var new_button = createElement('button', goal);
@@ -143,6 +150,32 @@ function create_new_sabotage(sabotage) {
 	new_button.class('sabotage_button');
 	sabotages.push(new_sabotage);
 	new_button.mousePressed(more_browns);
+}
+
+/*
+****** Processing files from dropzones *********
+*/
+
+function accept_goal_file(file) {
+	loadStrings(file.data, bulk_add_goals);
+}
+
+function bulk_add_goals(data) {
+	for (var i = 0; i < data.length; i++) {
+		create_new_goal(data[i]);
+	}
+}
+
+function disappear_goal_dropzone() {
+	goal_dropzone.remove();
+}
+
+function end_prologue() {
+	var dropzones = selectAll('.dropzone');
+	for (var i = 0; i < dropzones.length; i++) {
+		dropzones[i].remove();
+	}	
+	prologue = 0; // start the transition off of the prologue screen
 }
 
 /*
@@ -182,19 +215,33 @@ function unhighlight() {
 	this.style('color', 'rgb(240, 240, 240)');
 }
 
-
 function draw() {
-	if (prologue == true) {
+	if (prologue == 1) {
+		// Prologue mode
 		canvas.style('z-index', '1'); 	// cover page content
-		noStroke();
-		fill(140, 100, 220);
+		
+		// set the radius based on current window size
 		if (windowWidth > windowHeight) {
-			ellipse(windowWidth/2, windowHeight/2, windowWidth+500);
+			radius = windowWidth+500;
 		} else {
-			ellipse(windowWidth/2, windowHeight/2, windowHeight+500);
+			radius = windowHeight+500;
 		}
 
-	} else {
+		noStroke();
+		fill(140, 100, 220);
+		ellipse(windowWidth/2, windowHeight/2, radius);
+
+	} else if (prologue == 0) {
+		// Transition
+		if (radius < 1) {
+			// end transition
+			prologue = -1;
+		}
+		radius -= shrink_rate;
+		ellipse(windowWidth/2, windowHeight/2, radius);
+		
+	} else if (prologue == -1) {
+		// Prologue is done, main page configuration is active
 		canvas.style('z-index', '-1'); 	// put it behind the page content
 		background(130);
 	
@@ -214,5 +261,9 @@ function draw() {
 			bubbles[i].updatePos();
 			bubbles[i].display();
 		}
+		
+	} else {
+		console.log("Something went wrong with the prologue timing.");
 	}
+	
 }

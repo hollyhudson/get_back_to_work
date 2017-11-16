@@ -85,15 +85,17 @@ function setup() {
 	goal_dropzone = createP("Drop your goals here");	
 	goal_dropzone.class('dropzone');	
 	goal_dropzone.position(10, 10);
-	goal_dropzone.drop(accept_goal_file, disappear_goal_dropzone);
+	goal_dropzone.drop(got_goal_file);
+
 	todo_dropzone = createP("Drop your to dos here");	
 	todo_dropzone.class('dropzone');	
 	todo_dropzone.position(10, 140);
-	//todo_dropzone.drop(accept_todo_file, disappear_dropzone);
+	todo_dropzone.drop(got_todo_file);
+
 	sabotage_dropzone = createP("Drop your sabotages here");	
 	sabotage_dropzone.class('dropzone');	
 	sabotage_dropzone.position(10, 270);
-	//sabotage_dropzone.drop(accept_sabotage_file, disappear_dropzone);
+	sabotage_dropzone.drop(got_sabotage_file);
 
 	finish_prologue_btn = createButton("Let's get started!");
 	finish_prologue_btn.style('background-color', 'black');
@@ -156,8 +158,19 @@ function create_new_sabotage(sabotage) {
 ****** Processing files from dropzones *********
 */
 
-function accept_goal_file(file) {
+function got_goal_file(file) {
 	loadStrings(file.data, bulk_add_goals);
+	goal_dropzone.remove();
+}
+
+function got_todo_file(file) {
+	loadStrings(file.data, bulk_add_todos);
+	todo_dropzone.remove();
+}
+
+function got_sabotage_file(file) {
+	loadStrings(file.data, bulk_add_sabotages);
+	sabotage_dropzone.remove();
 }
 
 function bulk_add_goals(data) {
@@ -166,8 +179,16 @@ function bulk_add_goals(data) {
 	}
 }
 
-function disappear_goal_dropzone() {
-	goal_dropzone.remove();
+function bulk_add_todos(data) {
+	for (var i = 0; i < data.length; i++) {
+		create_new_todo(data[i]);
+	}
+}
+
+function bulk_add_sabotages(data) {
+	for (var i = 0; i < data.length; i++) {
+		create_new_sabotage(data[i]);
+	}
 }
 
 function end_prologue() {
@@ -175,6 +196,7 @@ function end_prologue() {
 	for (var i = 0; i < dropzones.length; i++) {
 		dropzones[i].remove();
 	}	
+	finish_prologue_btn.remove();
 	prologue = 0; // start the transition off of the prologue screen
 }
 
@@ -232,12 +254,13 @@ function draw() {
 		ellipse(windowWidth/2, windowHeight/2, radius);
 
 	} else if (prologue == 0) {
+		background(130);
 		// Transition
 		if (radius < 1) {
 			// end transition
 			prologue = -1;
 		}
-		radius -= shrink_rate;
+		radius = radius - shrink_rate;
 		ellipse(windowWidth/2, windowHeight/2, radius);
 		
 	} else if (prologue == -1) {

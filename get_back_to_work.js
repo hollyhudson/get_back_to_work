@@ -1,29 +1,27 @@
 // Here's a more complex example to play with css with p5.js
 
-var canvas;
-var radius; // of the ellipse that covers the page during the prologue
-var shrink_rate = 20; // num pixels to subtract from radius while shrinking
-var get_back_to_work;
-var dir = 3;
-var col_g = 0;
+let canvas;
+let radius; // of the ellipse that covers the page during the prologue
+const SHRINK_RATE = 20; // num pixels to subtract from radius while shrinking
+let get_back_to_work;
+let dir = 3;
+let col_g = 0;
 
-var goals = [];
-var todos = [];
-var sabotages = [];
+let goals = [];
+let todos = [];
+let sabotages = [];
 
-var num_bubbles = 80;
-var bubbles = [];
+const NUM_BUBBLES = 80;
+let bubbles = [];
 
-var new_item_input;
-var new_goal_btn;
-var new_todo_btn;
-var new_sabotage_btn;
+let new_item_input;
+let new_goal_btn;
+let new_todo_btn;
+let new_sabotage_btn;
 
-var today = new Motivation();
-//var section_header_test;
-//var section_headers;
+let today = new Motivation();
 
-var prologue = 1; // 1 is on, 0 is transition, -1 is off
+let prologue = 1; // 1 is on, 0 is transition, -1 is off
 
 function setup() {
 	canvas = createCanvas(windowWidth, windowHeight);
@@ -35,19 +33,19 @@ function setup() {
 
 	// Add the motivation lists to arrays
 	/*
-	for (var i = 0; i < today.goals.length; i++) {
+	for (let i = 0; i < today.goals.length; i++) {
 		create_new_goal(today.goals[i]);
 	}
-	for (var i = 0; i < today.todos.length; i++) {
+	for (let i = 0; i < today.todos.length; i++) {
 		create_new_todo(today.todos[i]);
 	}
-	for (var i = 0; i < today.sabotage.length; i++) {
+	for (let i = 0; i < today.sabotage.length; i++) {
 		create_new_sabotage(today.sabotage[i]);
 	}
 	*/
 
 	// make the bubbles
-	for (var i = 0; i < num_bubbles; i++) {
+	for (let i = 0; i < NUM_BUBBLES; i++) {
 		bubbles.push(new Bubble(random(width), random(height)));
 	}	
 
@@ -125,9 +123,9 @@ function create_new_sabotage_wrapper() {
 
 function create_new_goal(goal) {
 	console.log("creating a new goal!");
-	var new_goal = createElement('li');
+	let new_goal = createElement('li');
 	new_goal.parent("#goals");
-	var new_button = createElement('button', goal);
+	let new_button = createElement('button', goal);
 	new_button.parent(new_goal);
 	new_button.class('goal_button');
 	goals.push(new_goal);
@@ -135,9 +133,9 @@ function create_new_goal(goal) {
 }
 
 function create_new_todo(todo) {
-	var new_todo = createElement('li');
+	let new_todo = createElement('li');
 	new_todo.parent("#todos");
-	var new_button = createElement('button', todo);
+	let new_button = createElement('button', todo);
 	new_button.parent(new_todo);
 	new_button.class('todo_button');
 	todos.push(new_todo);
@@ -145,9 +143,9 @@ function create_new_todo(todo) {
 }
 
 function create_new_sabotage(sabotage) {
-	var new_sabotage = createElement('li');
+	let new_sabotage = createElement('li');
 	new_sabotage.parent("#sabotage");
-	var new_button = createElement('button', sabotage);
+	let new_button = createElement('button', sabotage);
 	new_button.parent(new_sabotage);
 	new_button.class('sabotage_button');
 	sabotages.push(new_sabotage);
@@ -174,26 +172,26 @@ function got_sabotage_file(file) {
 }
 
 function bulk_add_goals(data) {
-	for (var i = 0; i < data.length; i++) {
+	for (let i = 0; i < data.length; i++) {
 		create_new_goal(data[i]);
 	}
 }
 
 function bulk_add_todos(data) {
-	for (var i = 0; i < data.length; i++) {
+	for (let i = 0; i < data.length; i++) {
 		create_new_todo(data[i]);
 	}
 }
 
 function bulk_add_sabotages(data) {
-	for (var i = 0; i < data.length; i++) {
+	for (let i = 0; i < data.length; i++) {
 		create_new_sabotage(data[i]);
 	}
 }
 
 function end_prologue() {
-	var dropzones = selectAll('.dropzone');
-	for (var i = 0; i < dropzones.length; i++) {
+	let dropzones = selectAll('.dropzone');
+	for (let i = 0; i < dropzones.length; i++) {
 		dropzones[i].remove();
 	}	
 	finish_prologue_btn.remove();
@@ -205,7 +203,7 @@ function end_prologue() {
 */
 
 function more_blues() {
-	for (var i = 0; i < bubbles.length; i++) {
+	for (let i = 0; i < bubbles.length; i++) {
 		if (parseInt(random(10)) == 0) {
 			bubbles[i].color = 1;
 		}
@@ -213,7 +211,7 @@ function more_blues() {
 }
 
 function more_browns() {
-	for (var i = 0; i < bubbles.length; i++) {
+	for (let i = 0; i < bubbles.length; i++) {
 		if (parseInt(random(10)) == 0) {
 			bubbles[i].color = 3;
 		}
@@ -221,7 +219,7 @@ function more_browns() {
 }
 
 function complete_todo() {
-	for (var i = 0; i < bubbles.length; i++) {
+	for (let i = 0; i < bubbles.length; i++) {
 		if (parseInt(random(10)) == 0) {
 			bubbles[i].color = 2;
 		}
@@ -260,7 +258,7 @@ function draw() {
 			// end transition
 			prologue = -1;
 		}
-		radius = radius - shrink_rate;
+		radius = radius - SHRINK_RATE;
 		ellipse(windowWidth/2, windowHeight/2, radius);
 		
 	} else if (prologue == -1) {
@@ -280,7 +278,7 @@ function draw() {
 		col_g += dir;	
 	
 		// Show the bubbles
-		for (var i = 0; i < bubbles.length; i++) {
+		for (let i = 0; i < bubbles.length; i++) {
 			bubbles[i].updatePos();
 			bubbles[i].display();
 		}
